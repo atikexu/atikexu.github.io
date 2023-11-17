@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((stream) => {
             localVideo.srcObject = stream;
 
-            const peer = new Peer({ key: 'your-peerjs-api-key', host: 'your-peerjs-server-url', secure: true });
+            const peer = new Peer();
 
             peer.on('open', (id) => {
                 console.log('My peer ID is: ' + id);
