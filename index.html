@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Chat</title>
-    <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.4.2/dist/peerjs.min.js"></script>
+    <script defer src="peerjs.min.js"></script>
     <style>
         video {
             width: 300px;
@@ -20,9 +20,7 @@
     <input type="text" id="peerIdInput">
     <button onclick="connect()">Conectar</button>
 
-    <video id="localVideo" autoplay muted playsinline></video>
-    <video id="remoteVideo1" autoplay playsinline></video>
-    <video id="remoteVideo2" autoplay playsinline></video>
+    <div id="videosContainer"></div>
 
     <script src="app.js"></script>
 </body>
