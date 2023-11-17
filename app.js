@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const peerId = peerIdInput.value.trim();
 
         if (peerId === "") {
-            alert("Ingrese un código de acceso válido");
+            alert("Ingrese un código de acceso válidooooooo");
             return;
         }
 
