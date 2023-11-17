@@ -2,32 +2,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const localVideo = document.getElementById('localVideo');
     const remoteVideo1 = document.getElementById('remoteVideo1');
     const remoteVideo2 = document.getElementById('remoteVideo2');
+    let peer;
 
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-        .then((stream) => {
-            localVideo.srcObject = stream;
+    function connect() {
+        const peerIdInput = document.getElementById('peerIdInput');
+        const peerId = peerIdInput.value.trim();
 
-            const peer = new Peer();
+        if (peerId === "") {
+            alert("Ingrese un código de acceso válido");
+            return;
+        }
 
-            peer.on('open', (id) => {
-                console.log('My peer ID is: ' + id);
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then((stream) => {
+                localVideo.srcObject = stream;
 
-                // Call peer2
-                const call1 = peer.call('peer2', stream);
-                setupCallListeners(call1, remoteVideo1);
+                peer = new Peer();
+                peer.on('open', (id) => {
+                    console.log('My peer ID is: ' + id);
 
-                // Call peer3
-                const call2 = peer.call('peer3', stream);
-                setupCallListeners(call2, remoteVideo2);
-            });
+                    // Call the remote peers
+                    const call1 = peer.call(peerId + '1', stream);
+                    setupCallListeners(call1, remoteVideo1);
 
-            peer.on('call', (call) => {
-                // Answer the call
-                call.answer(stream);
-                setupCallListeners(call, remoteVideo1);
-            });
-        })
-        .catch((error) => console.error('Error accessing media devices:', error));
+                    const call2 = peer.call(peerId + '2', stream);
+                    setupCallListeners(call2, remoteVideo2);
+                });
+
+                peer.on('call', (call) => {
+                    // Answer the call
+                    call.answer(stream);
+                    setupCallListeners(call, remoteVideo1);
+                });
+            })
+            .catch((error) => console.error('Error accessing media devices:', error));
+    }
 
     function setupCallListeners(call, remoteVideo) {
         // Stream received, show it in the remote video element
